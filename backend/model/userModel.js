@@ -17,7 +17,8 @@ const userSchema = new Schema ({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        Selection: false
     }, 
     avatar: {
         type: String,
@@ -30,12 +31,12 @@ const userSchema = new Schema ({
 })
 
 //user password encryption
-userSchema.pre('save', async function(){
+userSchema.pre('save', async function(next){
     const saltRounds = 10; // number of salts
     this.password = await bcrypt.hash(this.password, saltRounds);
     next();
 })
 
-const User = mongoose.model('User',userSchema);
+const userModel = mongoose.model('User',userSchema);
 
-export default User;
+export default userModel;
